@@ -1,0 +1,17 @@
+// Solo activa cuando tocas (no cuando sueltas)
+var last = context.get('last') || 0;
+var now = Date.now();
+var lastTime = context.get('lastTime') || 0;
+
+// Detecta toque (0→1) y evita repeticiones por 500ms
+if (msg.payload === 1 && last === 0 && (now - lastTime > 500)) {
+    context.set('lastTime', now);
+    context.set('last', 1);
+    return {payload: "Toque detectado", timestamp: now};
+}
+
+if (msg.payload === 0) {
+    context.set('last', 0);
+}
+
+return null;
